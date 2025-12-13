@@ -24,12 +24,12 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'https://drive.google.com/file/d/1Pt8CJ8RNUPzi4tPb2qdu3XaNqv8R8AhG/view?usp=sharing',
+            src: 'pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'https://drive.google.com/file/d/1LQeEuD2wF9sr7krx7tKf8k3bQQ6bIgK8/view?usp=sharing',
+            src: 'pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png'
           }
@@ -37,5 +37,5 @@ export default defineConfig({
       }
     })
   ],
-  base: './',
+  base: './', 
 });

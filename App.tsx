@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import BottomNav from './components/BottomNav';
 import ProductsView from './views/ProductsView';
@@ -8,7 +7,7 @@ import CustomersView from './views/CustomersView';
 import SettingsView from './views/SettingsView';
 import DashboardView from './views/DashboardView';
 import { Tab, SaleRecord, Product, Expense, Notification, NotificationType, Customer, AppUser, AppSettings, Language, ReceiptSize } from './types';
-import { CheckCircle, AlertCircle, LogIn, Lock, Loader2, Database, Save, ArrowLeft } from 'lucide-react';
+import { CheckCircle, AlertCircle, LogIn, Lock, Loader2, Database, Save, ArrowLeft, User } from 'lucide-react';
 import { fetchDataFromSheets, getApiUrl, saveApiUrl, saveSettingsToSheets } from './services/apiService';
 
 const App: React.FC = () => {
@@ -352,36 +351,86 @@ const App: React.FC = () => {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 w-full max-w-md animate-fade-in-up">
-          <div className="flex flex-col items-center mb-8">
-            <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-full mb-4 text-primary dark:text-blue-200"><Lock size={40} /></div>
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">نظام نقاط البيع</h1>
-            <p className="text-gray-500 dark:text-gray-400">تسجيل الدخول للمتابعة</p>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300">
+        {/* Background Decorative Elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+             <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-3xl"></div>
+             <div className="absolute top-[20%] -right-[10%] w-[30%] h-[30%] bg-secondary/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-md p-8 relative z-10 animate-fade-in-up border border-gray-100 dark:border-gray-700">
+          <div className="flex flex-col items-center mb-8 text-center">
+            <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-4 text-primary shadow-sm">
+               <Lock size={32} strokeWidth={2} />
+            </div>
+            
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">نظام نقاط البيع</h1>
+            <p className="text-gray-500 dark:text-gray-400">مرحباً بعودتك، يرجى تسجيل الدخول</p>
           </div>
-          <div className="space-y-4">
+
+          <div className="space-y-6">
              {!showApiConfig ? (
                  <>
-                    <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">البريد الإلكتروني</label>
-                    <input type="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} className="w-full p-3 border border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none" placeholder="yourname@pos.com" onKeyDown={(e) => e.key === 'Enter' && handleLogin()} />
+                    <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">البريد الإلكتروني</label>
+                        <div className="relative">
+                            <input 
+                                type="email" 
+                                value={loginEmail} 
+                                onChange={(e) => setLoginEmail(e.target.value)} 
+                                className="w-full pl-4 pr-10 py-3 rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition text-right dir-rtl" 
+                                placeholder="name@example.com" 
+                                onKeyDown={(e) => e.key === 'Enter' && handleLogin()} 
+                            />
+                            <div className="absolute right-3 top-3.5 text-gray-400 pointer-events-none">
+                                <User size={20} />
+                            </div>
+                        </div>
                     </div>
-                    <button onClick={handleLogin} className="w-full bg-primary hover:bg-secondary text-white font-bold py-3 rounded-xl transition flex items-center justify-center space-x-2 space-x-reverse"><LogIn size={20} /><span>دخول</span></button>
-                    <div className="text-center mt-4">
-                         <button onClick={() => setShowApiConfig(true)} className="text-gray-500 dark:text-gray-400 hover:text-gray-700 text-sm flex items-center justify-center mx-auto space-x-1 space-x-reverse"><Database size={14} /><span>إعدادات قاعدة البيانات</span></button>
+                    
+                    <button 
+                        onClick={handleLogin} 
+                        className="w-full bg-primary hover:bg-secondary text-white font-bold py-3 rounded-xl shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 space-x-reverse transition transform active:scale-95"
+                    >
+                        <LogIn size={20} />
+                        <span>تسجيل الدخول</span>
+                    </button>
+                    
+                    <div className="pt-4 border-t border-gray-100 dark:border-gray-700 text-center">
+                        <button 
+                            onClick={() => setShowApiConfig(true)} 
+                            className="text-sm text-gray-400 hover:text-primary transition flex items-center justify-center mx-auto space-x-1 space-x-reverse"
+                        >
+                            <Database size={14} />
+                            <span>إعدادات قاعدة البيانات</span>
+                        </button>
                     </div>
                  </>
              ) : (
                  <>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">رابط Google Apps Script</label>
-                        <input type="text" value={tempApiUrl} onChange={(e) => setTempApiUrl(e.target.value)} className="w-full p-3 border border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-white rounded-xl focus:ring-2 focus:ring-primary outline-none dir-ltr text-left" placeholder="https://script.google.com/..." />
+                    <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">رابط Google Apps Script</label>
+                        <div className="relative">
+                           <input type="text" value={tempApiUrl} onChange={(e) => setTempApiUrl(e.target.value)} className="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white outline-none focus:ring-2 focus:ring-primary dir-ltr text-left" placeholder="https://script.google.com/..." />
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">يستخدم للربط مع جداول بيانات جوجل الخاصة بك.</p>
                     </div>
-                    <button onClick={handleSaveApiUrlInLogin} className="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 rounded-xl transition flex items-center justify-center space-x-2 space-x-reverse"><Save size={20} /><span>حفظ ومزامنة</span></button>
-                    <button onClick={() => setShowApiConfig(false)} className="w-full text-gray-500 py-2 flex items-center justify-center space-x-1 space-x-reverse"><ArrowLeft size={16} /><span>رجوع</span></button>
+                    <div className="flex space-x-3 space-x-reverse pt-2">
+                        <button onClick={handleSaveApiUrlInLogin} className="flex-1 bg-primary hover:bg-secondary text-white font-bold py-3 rounded-xl shadow transition flex items-center justify-center space-x-2 space-x-reverse">
+                            <Save size={18} />
+                            <span>حفظ ومزامنة</span>
+                        </button>
+                        <button onClick={() => setShowApiConfig(false)} className="px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                            <ArrowLeft size={20} />
+                        </button>
+                    </div>
                  </>
              )}
           </div>
+        </div>
+        
+        <div className="absolute bottom-4 text-center text-gray-400 text-xs">
+             <p>© 2026 نظام نقاط البيع الذكي</p>
         </div>
       </div>
     );
