@@ -22,6 +22,32 @@
             colors: {
               primary: '#2563eb',
               secondary: '#1e40af',
+            },
+            animation: {
+              'fade-in-up': 'fade-in-up 0.3s ease-out forwards',
+              'fade-in': 'fade-in 0.3s ease-out forwards',
+              'slide-in-left': 'slide-in-left 0.3s ease-out forwards',
+              'bounce-in': 'bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
+            },
+            keyframes: {
+              'fade-in-up': {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              'fade-in': {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              'slide-in-left': {
+                '0%': { opacity: '0', transform: 'translateX(-100%)' },
+                '100%': { opacity: '1', transform: 'translateX(0)' },
+              },
+              'bounce-in': {
+                '0%': { opacity: '0', transform: 'scale(0.3)' },
+                '50%': { opacity: '1', transform: 'scale(1.05)' },
+                '70%': { transform: 'scale(0.9)' },
+                '100%': { transform: 'scale(1)' },
+              }
             }
           }
         }
@@ -45,7 +71,6 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased pb-20 md:pb-0 transition-colors duration-300">
     <div id="root"></div>
